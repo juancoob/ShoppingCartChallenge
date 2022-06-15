@@ -18,9 +18,20 @@ android {
     }
 
     buildTypes {
+        def properties = getSecretProperty()
+        def apiKey = ""
+        try {
+            apiKey = properties['API_LAYER_KEY']
+        } catch(FileNotFoundException exception) {
+            println(exception.message)
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", 'API_LAYER_KEY', "\"" + apiKey + "\"")
+        }
+        debug {
+            buildConfigField("String", 'API_LAYER_KEY', "\"" + apiKey + "\"")
         }
     }
     compileOptions {
@@ -30,6 +41,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+}
+
+def getSecretProperty() {
+    def secretFile = file("secret.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(secretFile))
+    return properties
 }
 
 dependencies {
