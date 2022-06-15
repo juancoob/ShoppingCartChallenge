@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.0'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -72,6 +74,10 @@ dependencies {
 
     // Arrow
     implementation "io.arrow-kt:arrow-core:1.0.1"
+
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.42'
+    kapt 'com.google.dagger:hilt-compiler:2.42'
 
     // Unit/Integration testing
     testImplementation 'junit:junit:4.13.2'
