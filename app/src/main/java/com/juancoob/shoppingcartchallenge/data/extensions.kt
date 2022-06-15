@@ -1,4 +1,4 @@
-package com.juancoob.shoppingcartchallenge
+package com.juancoob.shoppingcartchallenge.data
 
 import arrow.core.Either
 import arrow.core.left
