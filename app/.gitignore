@@ -1,1 +1,4 @@
 /build
+
+# No exposed variables (api keys, etc.)
+secret.properties
