@@ -7,9 +7,13 @@ dependencies {
     implementation project(":domain")
     testImplementation project(":testshared")
 
+    // Injection
     implementation "javax.inject:javax.inject:1"
+
+    // Arrow
     implementation "io.arrow-kt:arrow-core:1.0.1"
 
+    // Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:1.12.4"
     testImplementation "io.mockk:mockk-agent-jvm:1.12.4"
