@@ -3,10 +3,12 @@ package com.juancoob.shoppingcartchallenge.data.server
 import arrow.core.Either
 import com.juancoob.data.datasource.RemoteDataSource
 import com.juancoob.domain.ErrorRetrieved
-import com.juancoob.shoppingcartchallenge.tryCall
+import com.juancoob.shoppingcartchallenge.di.qualifiers.ApiKey
+import com.juancoob.shoppingcartchallenge.data.tryCall
+import javax.inject.Inject
 
-class RemoteDataSourceImpl(
-    private val apiKey: String,
+class RemoteDataSourceImpl @Inject constructor(
+    @ApiKey private val apiKey: String,
     private val remoteService: RemoteService
 ) : RemoteDataSource {
 
