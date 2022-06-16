@@ -28,7 +28,7 @@ interface DormDao {
     @Delete
     suspend fun deleteAStoredBedForCheckout(bed: Bed)
 
-    @Query("SELECT dormId, COUNT(Bed.dormId) AS bedsForCheckout, type, Dorm.pricePerBed, bedsAvailable" +
+    @Query("SELECT dormId, COUNT(Bed.dormId) AS bedsForCheckout, type, Dorm.pricePerBed, bedsAvailable, Dorm.currency" +
             " FROM Bed, Dorm WHERE dormId = id")
     suspend fun getCart(): List<Cart>
 }
