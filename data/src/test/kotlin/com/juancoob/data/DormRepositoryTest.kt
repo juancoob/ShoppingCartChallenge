@@ -29,13 +29,19 @@ class DormRepositoryTest {
     @Test
     fun `When the app starts, it retrieves the available dorms`() {
         dormRepository.getAvailableDorms()
-        verify{ localDormDataSource.getAvailableDorms() }
+        verify { localDormDataSource.getAvailableDorms() }
     }
 
     @Test
-    fun `When the user clicks on an available dorm, the app will retrieve the dorm`() = runTest {
+    fun `When the user clicks on an available dorm, the app will retrieve the dorm`() {
         dormRepository.getAvailableDormById(mockedDorm.id)
-        coVerify { localDormDataSource.getAvailableDormById(mockedDorm.id) }
+        verify { localDormDataSource.getAvailableDormById(mockedDorm.id) }
+    }
+
+    @Test
+    fun `When the user opens the app, it checks the number of dorms already stored`() = runTest {
+        dormRepository.getStoredDorms()
+        coVerify { localDormDataSource.getStoredDorms() }
     }
 
     @Test
@@ -57,10 +63,11 @@ class DormRepositoryTest {
     }
 
     @Test
-    fun `When the user deletes a bed previously selected for checkout, the app calls to delete the bed`() = runTest {
-        dormRepository.deleteAStoredBedForCheckout(mockedBed)
-        coVerify { localDormDataSource.deleteAStoredBedForCheckout(mockedBed) }
-    }
+    fun `When the user deletes a bed previously selected for checkout, the app calls to delete the bed`() =
+        runTest {
+            dormRepository.deleteAStoredBedForCheckout(mockedBed)
+            coVerify { localDormDataSource.deleteAStoredBedForCheckout(mockedBed) }
+        }
 
     @Test
     fun `When the user opens the checkout screen, the app loads the cart content`() = runTest {
