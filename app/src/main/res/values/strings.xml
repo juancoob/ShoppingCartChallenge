@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">ShoppingCartChallenge</string>
+
+    <!-- error codes -->
+    <string name="connectivity_error">Connectivity Error</string>
+    <string name="server_error">Server Error: </string>
+    <string name="unknown_error">Unknown Error: </string>
+
+    <!-- main fragment -->
     <string name="welcome">Welcome!</string>
+
+    <!-- Bottom navigation -->
+    <string name="dorms">Dorms</string>
+    <string name="checkout">Checkout</string>
+    <string name="stats">Stats</string>
+
+    <!-- detail navigation -->
+    <plurals name="bedsAvailableFromDetailScreen">
+        <item quantity="one">There is %d bed available!\n Do you want to book it?</item>
+        <item quantity="other">There are %d beds available.\n How many of them do you need?</item>
+    </plurals>
+    <string name="no_beds">There is no more beds!</string>
+    <string name="ok">OK</string>
+    <string name="no_dorms">Sorry! There is no more dorms available.\n Come back later!</string>
 </resources>
