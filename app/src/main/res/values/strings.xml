@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ShoppingCartChallenge</string>
+    <string name="welcome">Welcome!</string>
 </resources>
