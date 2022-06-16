@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juancoob.domain.Dorm
 import com.juancoob.usecases.GetAvailableDormsUseCase
+import com.juancoob.usecases.GetStoredDormsUseCase
 import com.juancoob.usecases.InsertDormsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,33 +16,33 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val insertDormUseCase: InsertDormsUseCase,
-    private val getAvailableDormsUseCase: GetAvailableDormsUseCase
+    private val getAvailableDormsUseCase: GetAvailableDormsUseCase,
+    private val getStoredDormsUseCase: GetStoredDormsUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     val state = _state.asStateFlow()
 
     init {
-        start()
-    }
-
-    private fun start() {
-        viewModelScope.launch {
-            _state.value = _state.value.copy(loading = true)
-            getAvailableDormsUseCase().collect { dorms ->
-                if (dorms.isEmpty()) {
-                    insertDorms()
-                } else {
-                    _state.update { _state.value.copy(loading = false, dorms = dorms) }
-                }
-            }
-        }
+        insertDorms()
+        updateDormList()
     }
 
     private fun insertDorms() {
         viewModelScope.launch {
-            val dorms: List<Dorm> = createDorms()
-            insertDormUseCase(dorms)
+            if (getStoredDormsUseCase() == 0) {
+                val dorms: List<Dorm> = createDorms()
+                insertDormUseCase(dorms)
+            }
+        }
+    }
+
+    private fun updateDormList() {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(loading = true)
+            getAvailableDormsUseCase().collect { dorms ->
+                _state.update { _state.value.copy(loading = false, dorms = dorms) }
+            }
         }
     }
 
