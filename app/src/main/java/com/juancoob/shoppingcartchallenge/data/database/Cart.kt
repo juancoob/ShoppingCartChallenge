@@ -9,5 +9,6 @@ data class Cart(
     val bedsForCheckout: Int,
     val type: String,
     val pricePerBed: Double,
-    val bedsAvailable: Int
+    val bedsAvailable: Int,
+    val currency: String
 )

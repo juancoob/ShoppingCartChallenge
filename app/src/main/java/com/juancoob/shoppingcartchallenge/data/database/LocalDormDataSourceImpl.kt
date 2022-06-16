@@ -44,7 +44,8 @@ fun DbDorm.toDomainDormModel(): Dorm = Dorm(
     type = type,
     maxBeds = maxBeds,
     bedsAvailable = bedsAvailable,
-    pricePerBed = pricePerBed
+    pricePerBed = pricePerBed,
+    currency = currency
 )
 
 fun List<Dorm>.fromDomainDormModel(): List<DbDorm> = map { it.fromDomainDormModel() }
@@ -54,12 +55,14 @@ fun Dorm.fromDomainDormModel(): DbDorm = DbDorm(
     type = type,
     maxBeds = maxBeds,
     bedsAvailable = bedsAvailable,
-    pricePerBed = pricePerBed
+    pricePerBed = pricePerBed,
+    currency = currency
 )
 
 fun Bed.fromDomainBedModel(): DbBed = DbBed(
     dormId = dormId,
-    pricePerBed = pricePerBed
+    pricePerBed = pricePerBed,
+    currency = currency
 )
 
 fun List<DbCart>.toDomainCartModel(): List<Cart> = map { it.toDomainCartModel() }
@@ -69,5 +72,6 @@ fun DbCart.toDomainCartModel(): Cart = Cart(
     bedsForCheckout = bedsForCheckout,
     type = type,
     pricePerBed = pricePerBed,
-    bedsAvailable = bedsAvailable
+    bedsAvailable = bedsAvailable,
+    currency = currency
 )

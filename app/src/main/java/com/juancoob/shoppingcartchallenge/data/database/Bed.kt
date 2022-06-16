@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Bed(
     @PrimaryKey val dormId: Int,
-    val pricePerBed: Double
+    val pricePerBed: Double,
+    val currency: String
 )

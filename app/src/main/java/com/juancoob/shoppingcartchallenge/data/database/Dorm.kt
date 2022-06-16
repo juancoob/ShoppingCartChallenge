@@ -5,9 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Dorm(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey val id: Int,
     val type: String,
     val maxBeds: Int,
     val bedsAvailable: Int,
-    val pricePerBed: Double
+    val pricePerBed: Double,
+    val currency: String
 )
