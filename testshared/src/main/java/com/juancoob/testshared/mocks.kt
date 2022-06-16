@@ -15,12 +15,14 @@ val mockedDorm = Dorm(
     type = "6-bed dorm",
     maxBeds = 6,
     bedsAvailable = 6,
-    pricePerBed = 17.56
+    pricePerBed = 17.56,
+    currency = "USD"
 )
 
 val mockedBed = Bed(
     dormId = 1,
-    pricePerBed = 17.56
+    pricePerBed = 17.56,
+    currency = "USD"
 )
 
 val mockedCart = Cart(
@@ -28,5 +30,6 @@ val mockedCart = Cart(
     bedsForCheckout = 1,
     type = "6-bed dorm",
     pricePerBed = 17.56,
-    bedsAvailable = 5
+    bedsAvailable = 5,
+    currency = "USD"
 )
