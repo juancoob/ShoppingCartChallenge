@@ -5,5 +5,6 @@ data class Dorm(
     val type: String,
     val maxBeds: Int,
     val bedsAvailable: Int,
-    val pricePerBed: Double
+    val pricePerBed: Double,
+    val currency: String
 )
