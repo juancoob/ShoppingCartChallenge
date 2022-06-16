@@ -14,7 +14,10 @@ interface DormDao {
     fun getAvailableDorms(): Flow<List<Dorm>>
 
     @Query("SELECT * FROM Dorm WHERE id = :id")
-    suspend fun getAvailableDormById(id: Int): Dorm
+    fun getAvailableDormById(id: Int): Flow<Dorm>
+
+    @Query("SELECT COUNT(id) FROM Dorm")
+    suspend fun getStoredDorms(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDorms(dorms: List<Dorm>)
@@ -29,6 +32,6 @@ interface DormDao {
     suspend fun deleteAStoredBedForCheckout(bed: Bed)
 
     @Query("SELECT dormId, COUNT(Bed.dormId) AS bedsForCheckout, type, Dorm.pricePerBed, bedsAvailable, Dorm.currency" +
-            " FROM Bed, Dorm WHERE dormId = id")
+            " FROM Bed, Dorm WHERE Bed.dormId = Dorm.id")
     suspend fun getCart(): List<Cart>
 }
