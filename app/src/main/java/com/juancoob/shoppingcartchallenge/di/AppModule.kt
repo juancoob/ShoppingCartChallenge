@@ -1,6 +1,7 @@
 package com.juancoob.shoppingcartchallenge.di
 
 import android.app.Application
+import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.juancoob.data.datasource.LocalCurrencyDataSource
@@ -16,10 +17,14 @@ import com.juancoob.shoppingcartchallenge.data.server.RemoteDataSourceImpl
 import com.juancoob.shoppingcartchallenge.data.server.RemoteService
 import com.juancoob.shoppingcartchallenge.di.qualifiers.ApiKey
 import com.juancoob.shoppingcartchallenge.di.qualifiers.ApiUrl
+import com.juancoob.shoppingcartchallenge.di.qualifiers.DormId
+import com.juancoob.shoppingcartchallenge.ui.detail.DetailFragmentArgs
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -104,6 +109,16 @@ object AppModuleProviderForDormDao {
     @Singleton
     fun provideSymbolDao(challengeDatabase: ChallengeDatabase): DormDao =
         challengeDatabase.dormDao()
+}
+
+@Module
+@InstallIn(ViewModelComponent::class)
+object AppModuleProviderForDormId {
+    @Provides
+    @ViewModelScoped
+    @DormId
+    fun provideDormId(savedStateHandle: SavedStateHandle) =
+        DetailFragmentArgs.fromSavedStateHandle(savedStateHandle).dormId
 }
 
 
