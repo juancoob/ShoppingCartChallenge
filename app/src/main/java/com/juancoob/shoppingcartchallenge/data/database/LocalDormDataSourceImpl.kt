@@ -18,8 +18,11 @@ class LocalDormDataSourceImpl @Inject constructor(
     override fun getAvailableDorms(): Flow<List<Dorm>> =
         dormDao.getAvailableDorms().map { it.toDomainDormModel() }
 
-    override suspend fun getAvailableDormById(id: Int): Dorm =
-        dormDao.getAvailableDormById(id).toDomainDormModel()
+    override fun getAvailableDormById(id: Int): Flow<Dorm> =
+        dormDao.getAvailableDormById(id).map{ it.toDomainDormModel()}
+
+    override suspend fun getStoredDorms(): Int =
+        dormDao.getStoredDorms()
 
     override suspend fun insertDorms(dorms: List<Dorm>) =
         dormDao.insertDorms(dorms.fromDomainDormModel())

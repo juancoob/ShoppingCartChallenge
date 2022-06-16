@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocalDormDataSource {
     fun getAvailableDorms(): Flow<List<Dorm>>
-    suspend fun getAvailableDormById(id: Int): Dorm
+    fun getAvailableDormById(id: Int): Flow<Dorm>
+    suspend fun getStoredDorms(): Int
     suspend fun insertDorms(dorms: List<Dorm>)
     suspend fun updateDorm(dorm: Dorm)
     suspend fun storeAvailableBedForCheckout(bed: Bed)
