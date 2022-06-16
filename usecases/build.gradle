@@ -8,11 +8,20 @@ dependencies {
     implementation project(":domain")
     testImplementation project(":testshared")
 
+    // Inject
     implementation "javax.inject:javax.inject:1"
 
+    // Kotlin
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2"
+
+    // Arrow
+    implementation "io.arrow-kt:arrow-core:1.0.1"
+
+    // Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:1.12.4"
     testImplementation "io.mockk:mockk-agent-jvm:1.12.4"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2"
 }
 
 java {
