@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Symbol(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val symbol: String
 )
