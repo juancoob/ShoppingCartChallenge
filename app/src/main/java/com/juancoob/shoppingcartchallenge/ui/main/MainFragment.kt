@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.juancoob.domain.Dorm
 import com.juancoob.shoppingcartchallenge.R
 import com.juancoob.shoppingcartchallenge.databinding.FragmentMainBinding
@@ -49,6 +50,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.state.collect {
                     binding.progressBar.isVisible = it.loading
+                    binding.noDorms.isVisible = it.dorms?.isEmpty() ?: false
                     adapter.submitList(it.dorms)
                 }
             }
@@ -56,7 +58,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun goToDetailFragment(dorm: Dorm) {
-        //todo
+        val action = MainFragmentDirections.actionMainToDetail(dorm.id)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {
