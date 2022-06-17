@@ -22,4 +22,15 @@
     <string name="no_beds">There is no more beds!</string>
     <string name="ok">OK</string>
     <string name="no_dorms">Sorry! There is no more dorms available.\n Come back later!</string>
+
+    <!-- checkout fragment -->
+    <string name="delete_beds_from_dorm">Delete beds from dorm</string>
+    <string name="amount_in">Amount in</string>
+    <string name="no_cart_elements">No plans for this weekend? Book a cool room in another city.</string>
+    <string name="add_bed">Add a bed</string>
+    <string name="delete_bed">Delete a bed</string>
+    <plurals name="bedsBookedFromCheckoutScreen">
+        <item quantity="one">bed from %s costs %d%s</item>
+        <item quantity="other">beds from %s costs %d%s</item>
+    </plurals>
 </resources>
