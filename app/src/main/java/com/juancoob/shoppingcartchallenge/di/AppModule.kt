@@ -77,7 +77,7 @@ object AppModuleProviderForEndPoint {
     @Provides
     @Singleton
     @ApiUrl
-    fun provideApiUrl(): String = "https://api.apilayer.com/exchangerates_data"
+    fun provideApiUrl(): String = "https://api.apilayer.com/exchangerates_data/"
 }
 
 @Module
