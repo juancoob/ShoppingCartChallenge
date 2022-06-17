@@ -15,7 +15,7 @@ interface SymbolDao {
     suspend fun getSymbolListSize(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSymbols(symbols: List<Symbol>)
+    suspend fun insertSymbolList(symbols: List<Symbol>)
 
     @Query("DELETE FROM Symbol")
     suspend fun deleteAllSymbols()
