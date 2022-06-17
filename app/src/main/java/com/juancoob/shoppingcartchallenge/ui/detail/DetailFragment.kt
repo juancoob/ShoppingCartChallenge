@@ -58,7 +58,7 @@ class DetailFragment : Fragment() {
             binding.availableBedsHeadline.text = getString(R.string.no_beds)
             hideViews()
         } else if (uiState.dorm != null) {
-            binding.availableBedsHeadline.text = requireContext().resources.getQuantityString(
+            binding.availableBedsHeadline.text = resources.getQuantityString(
                 R.plurals.bedsAvailableFromDetailScreen,
                 uiState.dorm.bedsAvailable,
                 uiState.dorm.bedsAvailable
