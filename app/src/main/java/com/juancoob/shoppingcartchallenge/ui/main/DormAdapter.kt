@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.juancoob.domain.Dorm
 import com.juancoob.shoppingcartchallenge.databinding.DormItemBinding
 
-class DormAdapter(val listener: (Dorm) -> Unit) :
+class DormAdapter(private val listener: (Dorm) -> Unit) :
     ListAdapter<Dorm, DormAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Dorm>() {
         override fun areItemsTheSame(oldItem: Dorm, newItem: Dorm): Boolean =
             oldItem.id == newItem.id
