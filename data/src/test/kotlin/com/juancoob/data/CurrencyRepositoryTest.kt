@@ -41,10 +41,11 @@ class CurrencyRepositoryTest {
     fun `When the symbol list is empty, the app requests symbols to insert`() = runTest {
         coEvery { localCurrencyDataSource.isSymbolListEmpty() }.returns(true)
         coEvery { remoteDataSource.getSymbols() }.returns(mockedSymbols.right())
+        val mockedSymbolList = currencyRepository.run { mockedSymbols.toMap().map { it.key.uppercase() } }
 
         currencyRepository.requestSymbols()
 
-        coVerify { localCurrencyDataSource.insertSymbols(mockedSymbols) }
+        coVerify { localCurrencyDataSource.insertSymbols(mockedSymbolList) }
     }
 
     @Test
