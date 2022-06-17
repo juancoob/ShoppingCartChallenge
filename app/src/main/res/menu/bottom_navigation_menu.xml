@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/dorm_page"
+        android:id="@+id/main_dest"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_king_bed"
         android:title="@string/dorms"/>
     <item
-        android:id="@+id/checkout_page"
+        android:id="@+id/checkout_dest"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_shopping_cart"
         android:title="@string/checkout"/>
     <item
-        android:id="@+id/stats_page"
+        android:id="@+id/stats_dest"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_format_list_numbered"
         android:title="@string/stats"/>
