@@ -28,4 +28,10 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/checkout_dest"
+        android:name="com.juancoob.shoppingcartchallenge.ui.checkout.CheckoutFragment"
+        android:label="Checkout"
+        tools:layout="@layout/fragment_checkout"/>
+
 </navigation>
