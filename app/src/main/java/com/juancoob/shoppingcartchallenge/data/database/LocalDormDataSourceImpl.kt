@@ -21,8 +21,8 @@ class LocalDormDataSourceImpl @Inject constructor(
     override fun getAvailableDormById(id: Int): Flow<Dorm> =
         dormDao.getAvailableDormById(id).map{ it.toDomainDormModel()}
 
-    override suspend fun getStoredDorms(): Int =
-        dormDao.getStoredDorms()
+    override suspend fun getStoredDorms(): List<Dorm> =
+        dormDao.getStoredDorms().toDomainDormModel()
 
     override suspend fun insertDorms(dorms: List<Dorm>) =
         dormDao.insertDorms(dorms.fromDomainDormModel())
@@ -30,14 +30,23 @@ class LocalDormDataSourceImpl @Inject constructor(
     override suspend fun updateDorm(dorm: Dorm) =
         dormDao.updateDorm(dorm.fromDomainDormModel())
 
-    override suspend fun storeAvailableBedForCheckout(bed: Bed) =
-        dormDao.storeAvailableBedForCheckout(bed.fromDomainBedModel())
+    override suspend fun insertBedForCheckout(bed: Bed) =
+        dormDao.insertBedForCheckout(bed.fromDomainBedModel())
 
-    override suspend fun deleteAStoredBedForCheckout(bed: Bed) =
-        dormDao.deleteAStoredBedForCheckout(bed.fromDomainBedModel())
+    override suspend fun updateBedsCurrency(
+        dormId: Int,
+        pricePerBed: Double,
+        currency: String,
+        currencySymbol: String
+    ) {
+        dormDao.updateBedsCurrency(dormId, pricePerBed, currency, currencySymbol)
+    }
 
-    override suspend fun getCart(): List<Cart> =
-        dormDao.getCart().toDomainCartModel()
+    override suspend fun deleteBedForCheckout(dormId: Int) =
+        dormDao.deleteBedForCheckout(dormId)
+
+    override fun getCart(): Flow<List<Cart>> =
+        dormDao.getCart().map { it.toDomainCartModel() }
 }
 
 fun List<DbDorm>.toDomainDormModel(): List<Dorm> = map { it.toDomainDormModel() }
@@ -45,10 +54,10 @@ fun List<DbDorm>.toDomainDormModel(): List<Dorm> = map { it.toDomainDormModel() 
 fun DbDorm.toDomainDormModel(): Dorm = Dorm(
     id = id,
     type = type,
-    maxBeds = maxBeds,
     bedsAvailable = bedsAvailable,
     pricePerBed = pricePerBed,
-    currency = currency
+    currency = currency,
+    currencySymbol = currencySymbol
 )
 
 fun List<Dorm>.fromDomainDormModel(): List<DbDorm> = map { it.fromDomainDormModel() }
@@ -56,16 +65,17 @@ fun List<Dorm>.fromDomainDormModel(): List<DbDorm> = map { it.fromDomainDormMode
 fun Dorm.fromDomainDormModel(): DbDorm = DbDorm(
     id = id,
     type = type,
-    maxBeds = maxBeds,
     bedsAvailable = bedsAvailable,
     pricePerBed = pricePerBed,
-    currency = currency
+    currency = currency,
+    currencySymbol = currencySymbol
 )
 
 fun Bed.fromDomainBedModel(): DbBed = DbBed(
     dormId = dormId,
     pricePerBed = pricePerBed,
-    currency = currency
+    currency = currency,
+    currencySymbol = currencySymbol
 )
 
 fun List<DbCart>.toDomainCartModel(): List<Cart> = map { it.toDomainCartModel() }
@@ -76,5 +86,6 @@ fun DbCart.toDomainCartModel(): Cart = Cart(
     type = type,
     pricePerBed = pricePerBed,
     bedsAvailable = bedsAvailable,
-    currency = currency
+    currency = currency,
+    currencySymbol = currencySymbol
 )
