@@ -26,10 +26,21 @@ interface DormDao {
     suspend fun updateDorm(dorm: Dorm)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun storeAvailableBedForCheckout(bed: Bed)
+    suspend fun insertBedForCheckout(bed: Bed)
 
-    @Delete
-    suspend fun deleteAStoredBedForCheckout(bed: Bed)
+    @Query(
+        "UPDATE Bed SET pricePerBed = :pricePerBed, currency = :currency, currencySymbol = :currencySymbol " +
+                "WHERE dormId = :dormId"
+    )
+    suspend fun updateBedsCurrency(
+        dormId: Int,
+        pricePerBed: Double,
+        currency: String,
+        currencySymbol: String
+    )
+
+    @Query("DELETE FROM Bed WHERE id IN (SELECT id FROM Bed WHERE dormId = :dormId LIMIT 1)")
+    suspend fun deleteBedForCheckout(dormId: Int)
 
     @Query("SELECT dormId, COUNT(Bed.dormId) AS bedsForCheckout, type, Dorm.pricePerBed, bedsAvailable, Dorm.currency" +
             " FROM Bed, Dorm WHERE Bed.dormId = Dorm.id")
