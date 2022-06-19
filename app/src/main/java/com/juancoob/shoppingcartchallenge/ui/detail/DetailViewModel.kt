@@ -43,9 +43,10 @@ class DetailViewModel @Inject constructor(
     }
 
     fun addBookedBeds(bookedBeds: Int) {
+        var errorRetrieved: ErrorRetrieved? = null
         viewModelScope.launch {
             (1..bookedBeds).forEach { _ ->
-                insertBedForCheckoutUseCase(
+                errorRetrieved = insertBedForCheckoutUseCase(
                     Bed(
                         _state.value.dorm!!.id,
                         _state.value.dorm!!.pricePerBed,
@@ -53,18 +54,28 @@ class DetailViewModel @Inject constructor(
                         _state.value.dorm!!.currencySymbol
                     )
                 )
+                if (errorRetrieved != null) {
+                    _state.update { it.copy(errorRetrieved = errorRetrieved) }
+                    return@forEach
+                }
             }
-            updateDorms(bookedBeds)
+
+            if (errorRetrieved == null) {
+                updateDorms(bookedBeds)
+            }
         }
     }
 
     private suspend fun updateDorms(bookedBeds: Int) {
-        updateDormUseCase(_state.value.dorm!!.copy(bedsAvailable = _state.value.dorm!!.bedsAvailable - bookedBeds))
+        val errorRetrieved =
+            updateDormUseCase(_state.value.dorm!!.copy(bedsAvailable = _state.value.dorm!!.bedsAvailable - bookedBeds))
+        if (errorRetrieved != null) {
+            _state.update { it.copy(errorRetrieved = errorRetrieved) }
+        }
     }
 
     data class UiState(
         val dorm: Dorm? = null,
         val errorRetrieved: ErrorRetrieved? = null
     )
-
 }

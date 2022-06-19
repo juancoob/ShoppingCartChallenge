@@ -4,6 +4,7 @@ import com.juancoob.data.datasource.LocalDormDataSource
 import com.juancoob.domain.Bed
 import com.juancoob.domain.Cart
 import com.juancoob.domain.Dorm
+import com.juancoob.domain.ErrorRetrieved
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -19,13 +20,13 @@ class DormRepository @Inject constructor(
     suspend fun getStoredDorms(): List<Dorm> =
         localDormDataSource.getStoredDorms()
 
-    suspend fun insertDorms(dorms: List<Dorm>) =
+    suspend fun insertDorms(dorms: List<Dorm>): ErrorRetrieved? =
         localDormDataSource.insertDorms(dorms)
 
-    suspend fun updateDorm(dorm: Dorm) =
+    suspend fun updateDorm(dorm: Dorm): ErrorRetrieved? =
         localDormDataSource.updateDorm(dorm)
 
-    suspend fun insertBedForCheckout(bed: Bed) =
+    suspend fun insertBedForCheckout(bed: Bed): ErrorRetrieved? =
         localDormDataSource.insertBedForCheckout(bed)
 
     suspend fun updateBedsCurrency(
@@ -33,9 +34,9 @@ class DormRepository @Inject constructor(
         pricePerBed: Double,
         currency: String,
         currencySymbol: String
-    ) = localDormDataSource.updateBedsCurrency(dormId, pricePerBed, currency, currencySymbol)
+    ): ErrorRetrieved? = localDormDataSource.updateBedsCurrency(dormId, pricePerBed, currency, currencySymbol)
 
-    suspend fun deleteBedForCheckout(dormId: Int) =
+    suspend fun deleteBedForCheckout(dormId: Int): ErrorRetrieved? =
         localDormDataSource.deleteBedForCheckout(dormId)
 
     fun getCart(): Flow<List<Cart>> =

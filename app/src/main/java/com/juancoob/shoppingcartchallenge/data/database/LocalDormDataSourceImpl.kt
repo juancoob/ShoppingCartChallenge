@@ -4,6 +4,8 @@ import com.juancoob.data.datasource.LocalDormDataSource
 import com.juancoob.domain.Bed
 import com.juancoob.domain.Cart
 import com.juancoob.domain.Dorm
+import com.juancoob.domain.ErrorRetrieved
+import com.juancoob.shoppingcartchallenge.data.tryCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -19,31 +21,50 @@ class LocalDormDataSourceImpl @Inject constructor(
         dormDao.getAvailableDorms().map { it.toDomainDormModel() }
 
     override fun getAvailableDormById(id: Int): Flow<Dorm> =
-        dormDao.getAvailableDormById(id).map{ it.toDomainDormModel()}
+        dormDao.getAvailableDormById(id).map { it.toDomainDormModel() }
 
     override suspend fun getStoredDorms(): List<Dorm> =
         dormDao.getStoredDorms().toDomainDormModel()
 
-    override suspend fun insertDorms(dorms: List<Dorm>) =
+    override suspend fun insertDorms(dorms: List<Dorm>): ErrorRetrieved? = tryCall {
         dormDao.insertDorms(dorms.fromDomainDormModel())
+    }.fold(
+        ifLeft = { it },
+        ifRight = { null }
+    )
 
-    override suspend fun updateDorm(dorm: Dorm) =
+    override suspend fun updateDorm(dorm: Dorm): ErrorRetrieved? = tryCall {
         dormDao.updateDorm(dorm.fromDomainDormModel())
+    }.fold(
+        ifLeft = { it },
+        ifRight = { null }
+    )
 
-    override suspend fun insertBedForCheckout(bed: Bed) =
+    override suspend fun insertBedForCheckout(bed: Bed): ErrorRetrieved? = tryCall {
         dormDao.insertBedForCheckout(bed.fromDomainBedModel())
+    }.fold(
+        ifLeft = { it },
+        ifRight = { null }
+    )
 
     override suspend fun updateBedsCurrency(
         dormId: Int,
         pricePerBed: Double,
         currency: String,
         currencySymbol: String
-    ) {
+    ): ErrorRetrieved? = tryCall {
         dormDao.updateBedsCurrency(dormId, pricePerBed, currency, currencySymbol)
-    }
+    }.fold(
+        ifLeft = { it },
+        ifRight = { null }
+    )
 
-    override suspend fun deleteBedForCheckout(dormId: Int) =
+    override suspend fun deleteBedForCheckout(dormId: Int) = tryCall {
         dormDao.deleteBedForCheckout(dormId)
+    }.fold(
+        ifLeft = { it },
+        ifRight = { null }
+    )
 
     override fun getCart(): Flow<List<Cart>> =
         dormDao.getCart().map { it.toDomainCartModel() }

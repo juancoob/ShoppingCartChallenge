@@ -1,6 +1,7 @@
 package com.juancoob.usecases
 
 import com.juancoob.data.DormRepository
+import com.juancoob.domain.ErrorRetrieved
 import javax.inject.Inject
 
 class UpdateBedsUseCase @Inject constructor(private val repository: DormRepository) {
@@ -9,5 +10,5 @@ class UpdateBedsUseCase @Inject constructor(private val repository: DormReposito
         pricePerBed: Double,
         currency: String,
         currencySymbol: String
-    ) = repository.updateBedsCurrency(dormId, pricePerBed, currency, currencySymbol)
+    ): ErrorRetrieved? = repository.updateBedsCurrency(dormId, pricePerBed, currency, currencySymbol)
 }

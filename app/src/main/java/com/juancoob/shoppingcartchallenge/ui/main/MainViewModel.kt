@@ -3,6 +3,7 @@ package com.juancoob.shoppingcartchallenge.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juancoob.domain.Dorm
+import com.juancoob.domain.ErrorRetrieved
 import com.juancoob.usecases.GetAvailableDormsUseCase
 import com.juancoob.usecases.GetStoredDormsUseCase
 import com.juancoob.usecases.InsertDormsUseCase
@@ -32,7 +33,8 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (getStoredDormsUseCase().isEmpty()) {
                 val dorms: List<Dorm> = createDorms()
-                insertDormUseCase(dorms)
+                val errorRetrieved = insertDormUseCase(dorms)
+                _state.update { _state.value.copy(errorRetrieved = errorRetrieved) }
             }
         }
     }
@@ -81,6 +83,7 @@ class MainViewModel @Inject constructor(
 
     data class UiState(
         val loading: Boolean = false,
-        val dorms: List<Dorm>? = null
+        val dorms: List<Dorm>? = null,
+        val errorRetrieved: ErrorRetrieved? = null
     )
 }

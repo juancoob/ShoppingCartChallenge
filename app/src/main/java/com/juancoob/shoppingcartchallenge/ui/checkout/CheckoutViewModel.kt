@@ -146,7 +146,7 @@ class CheckoutViewModel @Inject constructor(
     }
 
     private suspend fun storeBookedBedsFromDorm(dorm: Dorm) = dorm.run {
-        insertBedForCheckoutUseCase(
+        val errorRetrieved = insertBedForCheckoutUseCase(
             Bed(
                 dormId = id,
                 pricePerBed = pricePerBed,
@@ -154,10 +154,16 @@ class CheckoutViewModel @Inject constructor(
                 currencySymbol = currencySymbol
             )
         )
+        if (errorRetrieved != null) {
+            _state.update { it.copy(errorRetrieved = errorRetrieved) }
+        }
     }
 
     private suspend fun updateDormBookedBeds(dorm: Dorm, currentBookedBeds: Int) {
-        updateDormUseCase(dorm.copy(bedsAvailable = currentBookedBeds))
+        val errorRetrieved = updateDormUseCase(dorm.copy(bedsAvailable = currentBookedBeds))
+        if (errorRetrieved != null) {
+            _state.update { it.copy(errorRetrieved = errorRetrieved) }
+        }
     }
 
     private fun subtractBookedBedsFromDorm(cart: Cart, bookedBeds: Int) {
@@ -169,12 +175,18 @@ class CheckoutViewModel @Inject constructor(
     }
 
     private suspend fun deleteBookedBedsFromDorm(dorm: Dorm, bookedBeds: Int) {
+        var errorRetrieved: ErrorRetrieved?
         (1..bookedBeds).forEach { _ ->
-            deleteBedForCheckoutUseCase(dorm.id)
+            errorRetrieved = deleteBedForCheckoutUseCase(dorm.id)
+            if (errorRetrieved != null) {
+                _state.update { it.copy(errorRetrieved = errorRetrieved) }
+                return@forEach
+            }
         }
     }
 
     fun requestConversion(requestedCurrency: String) {
+        var errorRetrieved: ErrorRetrieved?
         val newCurrencyCode = getCurrencyCode(requestedCurrency)
         val newCurrencySymbol = getCurrencySymbol(newCurrencyCode)
         viewModelScope.launch {
@@ -194,19 +206,28 @@ class CheckoutViewModel @Inject constructor(
                         )
                     }
                 }) { updatedPricePerBed ->
-                    updateDormUseCase(
+                    errorRetrieved = updateDormUseCase(
                         dorm.copy(
                             pricePerBed = updatedPricePerBed,
                             currency = newCurrencyCode,
                             currencySymbol = newCurrencySymbol
                         )
                     )
-                    updateBedsUseCase(
+                    if (errorRetrieved != null) {
+                        _state.update { it.copy(errorRetrieved = errorRetrieved) }
+                        return@forEach
+                    }
+
+                    errorRetrieved = updateBedsUseCase(
                         dormId = dorm.id,
                         pricePerBed = updatedPricePerBed,
                         currency = newCurrencyCode,
                         currencySymbol = newCurrencySymbol
                     )
+                    if (errorRetrieved != null) {
+                        _state.update { it.copy(errorRetrieved = errorRetrieved) }
+                        return@forEach
+                    }
                 }
             }
             _state.value = _state.value.copy(loading = false)

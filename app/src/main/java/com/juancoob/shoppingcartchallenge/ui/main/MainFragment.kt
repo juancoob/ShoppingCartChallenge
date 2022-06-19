@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.juancoob.domain.Dorm
 import com.juancoob.shoppingcartchallenge.R
 import com.juancoob.shoppingcartchallenge.databinding.FragmentMainBinding
+import com.juancoob.shoppingcartchallenge.ui.common.errorToString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -49,11 +50,33 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.state.collect {
-                    binding.progressBar.isVisible = it.loading
-                    binding.noDorms.isVisible = it.dorms?.isEmpty() ?: false
+                    shouldShowProgressBar(it.loading)
+                    shouldShowDormList(it.dorms)
+                    shouldShowErrorRetrieved(it.errorRetrieved?.errorToString(binding.root.context))
                     adapter.submitList(it.dorms)
                 }
             }
+        }
+    }
+
+    private fun shouldShowProgressBar(isLoading: Boolean) {
+        binding.progressBar.isVisible = isLoading
+    }
+
+    private fun shouldShowDormList(dorms: List<Dorm>?) = binding.run {
+        noDorms.isVisible = dorms == null || dorms.isEmpty()
+        mainList.isVisible = dorms?.isNotEmpty() == true
+    }
+
+    private fun shouldShowErrorRetrieved(errorText: String?) = binding.run {
+        if(noDorms.isVisible) {
+            noDorms.isVisible = errorText == null
+        } else {
+            mainList.isVisible = errorText == null
+        }
+        errorRetrieved.apply {
+            isVisible = errorText != null
+            text = errorText
         }
     }
 
