@@ -8,10 +8,16 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDormDataSource {
     fun getAvailableDorms(): Flow<List<Dorm>>
     fun getAvailableDormById(id: Int): Flow<Dorm>
-    suspend fun getStoredDorms(): Int
+    suspend fun getStoredDorms(): List<Dorm>
     suspend fun insertDorms(dorms: List<Dorm>)
     suspend fun updateDorm(dorm: Dorm)
-    suspend fun storeAvailableBedForCheckout(bed: Bed)
-    suspend fun deleteAStoredBedForCheckout(bed: Bed)
-    suspend fun getCart(): List<Cart>
+    suspend fun insertBedForCheckout(bed: Bed)
+    suspend fun updateBedsCurrency(
+        dormId: Int,
+        pricePerBed: Double,
+        currency: String,
+        currencySymbol: String
+    )
+    suspend fun deleteBedForCheckout(dormId: Int)
+    fun getCart(): Flow<List<Cart>>
 }
