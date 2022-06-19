@@ -97,7 +97,7 @@ class DetailFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.bedsSelector.adapter = adapter
         val position =
-            if (previousPosition == null || previousPosition > bedsAvailable) 0 else previousPosition
+            if (previousPosition == null || previousPosition >= bedsAvailable) 0 else previousPosition
         binding.bedsSelector.setSelection(position)
     }
 
