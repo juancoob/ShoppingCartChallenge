@@ -7,6 +7,7 @@ import com.juancoob.data.datasource.RemoteDataSource
 import com.juancoob.domain.ErrorRetrieved
 import com.juancoob.testshared.FROM
 import com.juancoob.testshared.TO
+import com.juancoob.testshared.mockedBed
 import com.juancoob.testshared.mockedDorm
 import com.juancoob.testshared.mockedSymbols
 import io.mockk.MockKAnnotations
@@ -77,15 +78,23 @@ class CurrencyRepositoryTest {
     }
 
     @Test
-    fun `When the user closes the app, it deletes the symbols`() = runTest {
-        currencyRepository.deleteSymbols()
-        coVerify { localCurrencyDataSource.deleteAllSymbols() }
-    }
-
-    @Test
     fun `When the user request the conversion between currencies, the app calls getConversion method`() =
         runTest {
             currencyRepository.getConversion(FROM, TO, mockedDorm.pricePerBed)
             coVerify { remoteDataSource.getConversion(FROM, TO, mockedDorm.pricePerBed) }
         }
+
+    @Test
+    fun `When the app retrieves a data class, the app converts it to map`() {
+        val expectedMap = mapOf(
+            "currency" to "USD",
+            "currencySymbol" to "$",
+            "dormId" to 1,
+            "pricePerBed" to 17.56
+        )
+
+        val resultedList = currencyRepository.run { mockedBed.toMap() }
+
+        assertTrue(expectedMap == resultedList)
+    }
 }
