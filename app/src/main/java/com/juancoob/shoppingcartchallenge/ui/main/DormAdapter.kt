@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.juancoob.domain.Dorm
+import com.juancoob.shoppingcartchallenge.R
 import com.juancoob.shoppingcartchallenge.databinding.DormItemBinding
 
 class DormAdapter(private val listener: (Dorm) -> Unit) :
@@ -32,8 +33,18 @@ class DormAdapter(private val listener: (Dorm) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dorm: Dorm) = binding.run {
-            type.text = dorm.type
-            bedsAvailable.text = dorm.bedsAvailable.toString()
+            type.text =
+                root.resources.getString(
+                    R.string.type_dorm_price,
+                    dorm.type,
+                    dorm.pricePerBed,
+                    dorm.currencySymbol
+                )
+            bedsAvailable.text = root.context.resources.getQuantityString(
+                R.plurals.bedsAvailableFromMainScreen,
+                dorm.bedsAvailable,
+                dorm.bedsAvailable
+            )
         }
     }
 }

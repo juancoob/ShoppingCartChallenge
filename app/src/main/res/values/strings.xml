@@ -7,7 +7,13 @@
     <string name="unknown_error">Unknown Error: </string>
 
     <!-- main fragment -->
-    <string name="welcome">Welcome!</string>
+    <plurals name="bedsAvailableFromMainScreen">
+        <item quantity="one">Only %d bed available!</item>
+        <item quantity="other">%d beds available</item>
+    </plurals>
+    <string name="welcome">Welcome to book a cool bed!</string>
+    <string name="type_dorm_price">%1$s (%2$.2f %3$s/bed)</string>
+    <string name="no_dorms">Sorry! There is no more dorms available.\n Come back later!</string>
 
     <!-- Bottom navigation -->
     <string name="dorms">Dorms</string>
@@ -21,7 +27,6 @@
     </plurals>
     <string name="no_beds">There is no more beds!</string>
     <string name="ok">OK</string>
-    <string name="no_dorms">Sorry! There is no more dorms available.\n Come back later!</string>
 
     <!-- checkout fragment -->
     <plurals name="bedsBookedFromCheckoutScreen">
@@ -30,7 +35,7 @@
     </plurals>
     <string name="delete_beds_from_dorm">Delete beds from dorm</string>
     <string name="amount_in">Amount in</string>
-    <string name="no_cart_elements">No plans for this weekend? Book a cool room in another city.</string>
+    <string name="no_cart_elements">No plans for this weekend? Book a cool bed in another city.</string>
     <string name="add_bed">Add a bed</string>
     <string name="delete_bed">Delete a bed</string>
     <string name="total_amount">Total %1$.2f %2$s</string>
