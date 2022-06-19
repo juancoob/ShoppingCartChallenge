@@ -25,8 +25,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-const val CURRENCY_CODE_LENGTH = 3
-
 @HiltViewModel
 class CheckoutViewModel @Inject constructor(
     private val requestSymbolsUseCase: RequestSymbolsUseCase,
@@ -234,4 +232,8 @@ class CheckoutViewModel @Inject constructor(
         val onSubtractBed: () -> Unit,
         val onDeleteCartItem: () -> Unit
     )
+
+    companion object {
+        private const val CURRENCY_CODE_LENGTH = 3
+    }
 }
