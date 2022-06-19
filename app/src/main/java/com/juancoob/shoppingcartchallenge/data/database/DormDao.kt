@@ -16,8 +16,8 @@ interface DormDao {
     @Query("SELECT * FROM Dorm WHERE id = :id")
     fun getAvailableDormById(id: Int): Flow<Dorm>
 
-    @Query("SELECT COUNT(id) FROM Dorm")
-    suspend fun getStoredDorms(): Int
+    @Query("SELECT * FROM Dorm")
+    suspend fun getStoredDorms(): List<Dorm>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDorms(dorms: List<Dorm>)
