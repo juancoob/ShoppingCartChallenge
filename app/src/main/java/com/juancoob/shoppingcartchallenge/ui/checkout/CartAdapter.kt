@@ -35,7 +35,7 @@ class CartAdapter :
         fun bind(cartUiState: CartUiState) {
             setBookedRooms(cartUiState.cart.bedsForCheckout)
             showBedTypeCostText(cartUiState.cart)
-            initClickListener(cartUiState)
+            initClickListeners(cartUiState)
         }
 
         private fun setBookedRooms(bedsForCheckout: Int) {
@@ -48,11 +48,11 @@ class CartAdapter :
                 cart.bedsForCheckout,
                 cart.type,
                 cart.pricePerBed * cart.bedsForCheckout,
-                cart.currency
+                cart.currencySymbol
             )
         }
 
-        private fun initClickListener(cartUiState: CartUiState) {
+        private fun initClickListeners(cartUiState: CartUiState) {
             binding.run {
                 addBed.setOnClickListener {
                     cartUiState.onAddBed()
@@ -66,6 +66,4 @@ class CartAdapter :
             }
         }
     }
-
-
 }
