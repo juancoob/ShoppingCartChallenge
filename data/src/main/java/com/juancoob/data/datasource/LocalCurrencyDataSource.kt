@@ -8,5 +8,4 @@ interface LocalCurrencyDataSource {
     fun getSymbols(): Flow<List<String>>
     suspend fun isSymbolListEmpty(): Boolean
     suspend fun insertSymbols(symbolList: List<String>): ErrorRetrieved?
-    suspend fun deleteAllSymbols()
 }

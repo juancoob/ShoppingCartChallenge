@@ -22,6 +22,4 @@ class LocalCurrencyDataSourceImpl @Inject constructor(
         ifLeft = { it },
         ifRight = { null }
     )
-
-    override suspend fun deleteAllSymbols() = symbolDao.deleteAllSymbols()
 }

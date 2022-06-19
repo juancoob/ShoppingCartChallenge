@@ -25,8 +25,6 @@ class CurrencyRepository @Inject constructor(
 
     fun getSymbols(): Flow<List<String>> = localCurrencyDataSource.getSymbols()
 
-    suspend fun deleteSymbols() = localCurrencyDataSource.deleteAllSymbols()
-
     suspend fun getConversion(
         from: String,
         to: String,
