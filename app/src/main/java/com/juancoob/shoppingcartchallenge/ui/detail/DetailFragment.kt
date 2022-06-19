@@ -12,9 +12,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.juancoob.domain.Dorm
-import com.juancoob.domain.ErrorRetrieved
 import com.juancoob.shoppingcartchallenge.R
 import com.juancoob.shoppingcartchallenge.databinding.FragmentDetailBinding
+import com.juancoob.shoppingcartchallenge.ui.common.errorToString
 import com.juancoob.shoppingcartchallenge.ui.detail.DetailViewModel.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -63,7 +63,7 @@ class DetailFragment : Fragment() {
                 uiState.dorm.pricePerBed,
                 uiState.dorm.currencySymbol
             )
-            uiState.errorRetrieved != null -> uiState.errorRetrieved.errorToString()
+            uiState.errorRetrieved != null -> uiState.errorRetrieved.errorToString(binding.root.context)
             else -> ""
         }
         updateDetailScreenViews(
@@ -82,12 +82,6 @@ class DetailFragment : Fragment() {
         okButton.isVisible = isVisible
     }
 
-    private fun ErrorRetrieved.errorToString(): String = when (this) {
-        ErrorRetrieved.Connectivity -> getString(R.string.connectivity_error)
-        is ErrorRetrieved.Server -> getString(R.string.server_error) + code
-        is ErrorRetrieved.Unknown -> getString(R.string.unknown_error) + message
-    }
-
     private fun shouldInitSpinner(dorm: Dorm?, position: Int?) {
         if (dorm != null) {
             initSpinner(dorm.bedsAvailable, position)
@@ -102,7 +96,8 @@ class DetailFragment : Fragment() {
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.bedsSelector.adapter = adapter
-        val position = if (previousPosition == null || previousPosition > bedsAvailable) 0 else previousPosition
+        val position =
+            if (previousPosition == null || previousPosition > bedsAvailable) 0 else previousPosition
         binding.bedsSelector.setSelection(position)
     }
 

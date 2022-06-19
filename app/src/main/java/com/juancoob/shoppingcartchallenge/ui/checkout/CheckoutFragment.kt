@@ -14,9 +14,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.juancoob.domain.ErrorRetrieved
 import com.juancoob.shoppingcartchallenge.R
 import com.juancoob.shoppingcartchallenge.databinding.FragmentCheckoutBinding
+import com.juancoob.shoppingcartchallenge.ui.common.errorToString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -59,7 +59,10 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     shouldSetCurrentCurrencyPositionOnSelector(it.symbolList, it.cartUiStateList)
                     cartAdapter.submitList(it.cartUiStateList)
                     updateCheckoutScreenViews(it.cartUiStateList)
-                    shouldOnlyShowErrorRetrieved(it.errorRetrieved?.errorToString(), it.retry)
+                    shouldOnlyShowErrorRetrieved(
+                        it.errorRetrieved?.errorToString(binding.root.context),
+                        it.retry
+                    )
                 }
             }
         }
@@ -192,12 +195,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 }
             }
         }
-
-    private fun ErrorRetrieved.errorToString(): String = when (this) {
-        ErrorRetrieved.Connectivity -> getString(R.string.connectivity_error)
-        is ErrorRetrieved.Server -> getString(R.string.server_error) + code
-        is ErrorRetrieved.Unknown -> getString(R.string.unknown_error) + message
-    }
 
     override fun onDestroy() {
         super.onDestroy()
