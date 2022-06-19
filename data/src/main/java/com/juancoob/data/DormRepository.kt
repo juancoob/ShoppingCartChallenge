@@ -16,7 +16,7 @@ class DormRepository @Inject constructor(
     fun getAvailableDormById(id: Int): Flow<Dorm> =
         localDormDataSource.getAvailableDormById(id)
 
-    suspend fun getStoredDorms(): Int =
+    suspend fun getStoredDorms(): List<Dorm> =
         localDormDataSource.getStoredDorms()
 
     suspend fun insertDorms(dorms: List<Dorm>) =
