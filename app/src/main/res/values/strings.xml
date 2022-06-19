@@ -22,11 +22,11 @@
 
     <!-- detail navigation -->
     <plurals name="bedsAvailableFromDetailScreen">
-        <item quantity="one">There is %d bed available!\n Do you want to book it?</item>
-        <item quantity="other">There are %d beds available.\n How many of them do you need?</item>
+        <item quantity="one">There is %d bed available!\n Do you want to book it?\nIt costs %.2f %s</item>
+        <item quantity="other">There are %d beds available.\n The unit costs %.2f %s\nHow many of them do you need?</item>
     </plurals>
     <string name="no_beds">There is no more beds!</string>
-    <string name="ok">OK</string>
+    <string name="book">Book</string>
 
     <!-- checkout fragment -->
     <plurals name="bedsBookedFromCheckoutScreen">

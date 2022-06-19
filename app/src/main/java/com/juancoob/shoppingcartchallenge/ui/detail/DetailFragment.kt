@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.juancoob.domain.Dorm
 import com.juancoob.domain.ErrorRetrieved
 import com.juancoob.shoppingcartchallenge.R
 import com.juancoob.shoppingcartchallenge.databinding.FragmentDetailBinding
@@ -36,41 +37,49 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectStates()
+        collectStates(savedInstanceState)
         initListeners()
     }
 
-    private fun collectStates() {
+    private fun collectStates(savedInstanceState: Bundle?) {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailViewModel.state.collect {
                     populateHeadline(it)
-                    if (it.dorm != null) {
-                        initSpinner(it.dorm.bedsAvailable)
-                    }
+                    shouldInitSpinner(it.dorm, savedInstanceState?.getInt(SELECTOR_POSITION_KEY))
                 }
             }
         }
     }
 
     private fun populateHeadline(uiState: UiState) {
-        if (uiState.dorm?.bedsAvailable == 0) {
-            binding.availableBedsHeadline.text = getString(R.string.no_beds)
-            hideViews()
-        } else if (uiState.dorm != null) {
-            binding.availableBedsHeadline.text = resources.getQuantityString(
+        populateScreenTitle(uiState.dorm?.type)
+        binding.availableBedsHeadline.text = when {
+            uiState.dorm?.bedsAvailable == 0 -> getString(R.string.no_beds)
+            uiState.dorm != null && uiState.dorm.bedsAvailable > 0 -> resources.getQuantityString(
                 R.plurals.bedsAvailableFromDetailScreen,
                 uiState.dorm.bedsAvailable,
-                uiState.dorm.bedsAvailable
+                uiState.dorm.bedsAvailable,
+                uiState.dorm.pricePerBed,
+                uiState.dorm.currencySymbol
             )
-        } else if (uiState.errorRetrieved != null) {
-            binding.availableBedsHeadline.text = uiState.errorRetrieved.errorToString()
+            uiState.errorRetrieved != null -> uiState.errorRetrieved.errorToString()
+            else -> ""
         }
+        updateDetailScreenViews(
+            uiState.dorm != null
+                    && uiState.dorm.bedsAvailable > 0
+                    && uiState.errorRetrieved == null
+        )
     }
 
-    private fun hideViews() = binding.run {
-        bedsSelector.isVisible = false
-        okButton.isVisible = false
+    private fun populateScreenTitle(title: String?) {
+        binding.dormDetailToolbar.title = title
+    }
+
+    private fun updateDetailScreenViews(isVisible: Boolean) = binding.run {
+        bedsSelector.isVisible = isVisible
+        okButton.isVisible = isVisible
     }
 
     private fun ErrorRetrieved.errorToString(): String = when (this) {
@@ -79,13 +88,22 @@ class DetailFragment : Fragment() {
         is ErrorRetrieved.Unknown -> getString(R.string.unknown_error) + message
     }
 
-    private fun initSpinner(bedsAvailable: Int) {
+    private fun shouldInitSpinner(dorm: Dorm?, position: Int?) {
+        if (dorm != null) {
+            initSpinner(dorm.bedsAvailable, position)
+        }
+    }
+
+    private fun initSpinner(bedsAvailable: Int, previousPosition: Int?) {
         val adapter = ArrayAdapter(
             binding.root.context,
             android.R.layout.simple_spinner_item,
             bedsAvailableToList(bedsAvailable)
         )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.bedsSelector.adapter = adapter
+        val position = if (previousPosition == null || previousPosition > bedsAvailable) 0 else previousPosition
+        binding.bedsSelector.setSelection(position)
     }
 
     private fun bedsAvailableToList(bedsAvailable: Int): List<Int> {
@@ -106,8 +124,17 @@ class DetailFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(SELECTOR_POSITION_KEY, binding.bedsSelector.selectedItemPosition)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private const val SELECTOR_POSITION_KEY = "selectorPositionKey"
     }
 }

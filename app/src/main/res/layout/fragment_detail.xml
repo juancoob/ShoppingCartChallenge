@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
     tools:context=".ui.detail.DetailFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -30,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            tools:text="There are 6 beds available.\n How many of them do you need?" />
+            android:padding="8dp"
+            tools:text="There are 6 beds available.\nThe unit cost 17.56 €\n How many of them do you need?" />
 
         <Spinner
             android:id="@+id/beds_selector"
@@ -42,6 +42,6 @@
             android:id="@+id/ok_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ok" />
+            android:text="@string/book" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
