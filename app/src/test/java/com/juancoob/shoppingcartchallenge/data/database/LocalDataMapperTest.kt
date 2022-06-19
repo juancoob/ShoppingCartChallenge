@@ -3,26 +3,12 @@ package com.juancoob.shoppingcartchallenge.data.database
 import com.juancoob.testshared.mockedBed
 import com.juancoob.testshared.mockedCart
 import com.juancoob.testshared.mockedDorm
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
 import com.juancoob.shoppingcartchallenge.data.database.Bed as DbBed
 import com.juancoob.shoppingcartchallenge.data.database.Cart as DbCart
 
 class LocalDataMapperTest {
-
-    @RelaxedMockK
-    lateinit var dormDao: DormDao
-
-    private lateinit var localDormDataSourceImpl: LocalDormDataSourceImpl
-
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-        localDormDataSourceImpl = LocalDormDataSourceImpl(dormDao)
-    }
 
     @Test
     fun `Maps dorm local model to dorm local db model and inverse to check if the conversion is correct`() {
