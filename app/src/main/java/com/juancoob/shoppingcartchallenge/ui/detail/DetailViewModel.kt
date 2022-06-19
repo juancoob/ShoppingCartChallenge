@@ -8,7 +8,7 @@ import com.juancoob.domain.ErrorRetrieved
 import com.juancoob.shoppingcartchallenge.data.toErrorRetrieved
 import com.juancoob.shoppingcartchallenge.di.qualifiers.DormId
 import com.juancoob.usecases.GetAvailableDormByIdUseCase
-import com.juancoob.usecases.StoreAvailableBedForCheckoutUseCase
+import com.juancoob.usecases.InsertBedForCheckoutUseCase
 import com.juancoob.usecases.UpdateDormUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +24,7 @@ class DetailViewModel @Inject constructor(
     @DormId private val dormId: Int,
     private val getAvailableDormByIdUseCase: GetAvailableDormByIdUseCase,
     private val updateDormUseCase: UpdateDormUseCase,
-    private val storeAvailableBedForCheckoutUseCase: StoreAvailableBedForCheckoutUseCase
+    private val insertBedForCheckoutUseCase: InsertBedForCheckoutUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
@@ -45,11 +45,12 @@ class DetailViewModel @Inject constructor(
     fun addBookedBeds(bookedBeds: Int) {
         viewModelScope.launch {
             (1..bookedBeds).forEach { _ ->
-                storeAvailableBedForCheckoutUseCase(
+                insertBedForCheckoutUseCase(
                     Bed(
                         _state.value.dorm!!.id,
                         _state.value.dorm!!.pricePerBed,
-                        _state.value.dorm!!.currency
+                        _state.value.dorm!!.currency,
+                        _state.value.dorm!!.currencySymbol
                     )
                 )
             }
