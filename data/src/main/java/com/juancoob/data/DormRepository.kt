@@ -25,12 +25,19 @@ class DormRepository @Inject constructor(
     suspend fun updateDorm(dorm: Dorm) =
         localDormDataSource.updateDorm(dorm)
 
-    suspend fun storeAvailableBedForCheckout(bed: Bed) =
-        localDormDataSource.storeAvailableBedForCheckout(bed)
+    suspend fun insertBedForCheckout(bed: Bed) =
+        localDormDataSource.insertBedForCheckout(bed)
 
-    suspend fun deleteAStoredBedForCheckout(bed: Bed) =
-        localDormDataSource.deleteAStoredBedForCheckout(bed)
+    suspend fun updateBedsCurrency(
+        dormId: Int,
+        pricePerBed: Double,
+        currency: String,
+        currencySymbol: String
+    ) = localDormDataSource.updateBedsCurrency(dormId, pricePerBed, currency, currencySymbol)
 
-    suspend fun getCart(): List<Cart> =
+    suspend fun deleteBedForCheckout(dormId: Int) =
+        localDormDataSource.deleteBedForCheckout(dormId)
+
+    fun getCart(): Flow<List<Cart>> =
         localDormDataSource.getCart()
 }
