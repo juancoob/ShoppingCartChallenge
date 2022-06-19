@@ -12,7 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 class DormRepositoryTest {
 
     @RelaxedMockK
@@ -58,20 +58,36 @@ class DormRepositoryTest {
 
     @Test
     fun `When the user picks out beds, the app stores them for the checkout screen`() = runTest {
-        dormRepository.storeAvailableBedForCheckout(mockedBed)
-        coVerify { localDormDataSource.storeAvailableBedForCheckout(mockedBed) }
+        dormRepository.insertBedForCheckout(mockedBed)
+        coVerify { localDormDataSource.insertBedForCheckout(mockedBed) }
     }
+
+    @Test
+    fun `When the user changes the currency, the app updates the bed currency`() =
+        runTest {
+            mockedDorm.run {
+                dormRepository.updateBedsCurrency(id, pricePerBed, currency, currencySymbol)
+                coVerify {
+                    localDormDataSource.updateBedsCurrency(
+                        id,
+                        pricePerBed,
+                        currency,
+                        currencySymbol
+                    )
+                }
+            }
+        }
 
     @Test
     fun `When the user deletes a bed previously selected for checkout, the app calls to delete the bed`() =
         runTest {
-            dormRepository.deleteAStoredBedForCheckout(mockedBed)
-            coVerify { localDormDataSource.deleteAStoredBedForCheckout(mockedBed) }
+            dormRepository.deleteBedForCheckout(mockedDorm.id)
+            coVerify { localDormDataSource.deleteBedForCheckout(mockedDorm.id) }
         }
 
     @Test
-    fun `When the user opens the checkout screen, the app loads the cart content`() = runTest {
+    fun `When the user opens the checkout screen, the app loads the cart content`() {
         dormRepository.getCart()
-        coVerify { localDormDataSource.getCart() }
+        verify { localDormDataSource.getCart() }
     }
 }
