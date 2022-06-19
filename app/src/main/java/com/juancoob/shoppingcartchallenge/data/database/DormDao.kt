@@ -1,7 +1,6 @@
 package com.juancoob.shoppingcartchallenge.data.database
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -42,7 +41,9 @@ interface DormDao {
     @Query("DELETE FROM Bed WHERE id IN (SELECT id FROM Bed WHERE dormId = :dormId LIMIT 1)")
     suspend fun deleteBedForCheckout(dormId: Int)
 
-    @Query("SELECT dormId, COUNT(Bed.dormId) AS bedsForCheckout, type, Dorm.pricePerBed, bedsAvailable, Dorm.currency" +
-            " FROM Bed, Dorm WHERE Bed.dormId = Dorm.id")
-    suspend fun getCart(): List<Cart>
+    @Query(
+        "SELECT dormId, COUNT(Bed.dormId) AS bedsForCheckout, type, Dorm.pricePerBed, bedsAvailable, Dorm.currency, " +
+                "Dorm.currencySymbol FROM Bed, Dorm WHERE Bed.dormId = Dorm.id GROUP BY Dorm.id"
+    )
+    fun getCart(): Flow<List<Cart>>
 }
