@@ -12,16 +12,17 @@ const val TO = "GBP"
 val mockedDorm = Dorm(
     id = 1,
     type = "6-bed dorm",
-    maxBeds = 6,
     bedsAvailable = 6,
     pricePerBed = 17.56,
-    currency = "USD"
+    currency = "USD",
+    currencySymbol = "$"
 )
 
 val mockedBed = Bed(
     dormId = 1,
     pricePerBed = 17.56,
-    currency = "USD"
+    currency = "USD",
+    currencySymbol = "$"
 )
 
 val mockedCart = Cart(
@@ -30,7 +31,8 @@ val mockedCart = Cart(
     type = "6-bed dorm",
     pricePerBed = 17.56,
     bedsAvailable = 5,
-    currency = "USD"
+    currency = "USD",
+    currencySymbol = "$"
 )
 
 val mockedSymbols = Symbol(
