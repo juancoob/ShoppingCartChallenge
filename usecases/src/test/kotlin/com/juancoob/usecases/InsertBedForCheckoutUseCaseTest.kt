@@ -10,23 +10,23 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class StoreAvailableBedForCheckoutUseCaseTest {
+@ExperimentalCoroutinesApi
+class InsertBedForCheckoutUseCaseTest {
 
     @RelaxedMockK
     lateinit var repository: DormRepository
 
-    lateinit var storeAvailableBedForCheckoutUseCase: StoreAvailableBedForCheckoutUseCase
+    lateinit var insertBedForCheckoutUseCase: InsertBedForCheckoutUseCase
 
     @Before
     fun startUp() {
         MockKAnnotations.init(this)
-        storeAvailableBedForCheckoutUseCase = StoreAvailableBedForCheckoutUseCase(repository)
+        insertBedForCheckoutUseCase = InsertBedForCheckoutUseCase(repository)
     }
 
     @Test
     fun `When the user adds beds for checkout, the app store them`() = runTest {
-        storeAvailableBedForCheckoutUseCase.invoke(mockedBed)
-        coVerify { repository.storeAvailableBedForCheckout(mockedBed) }
+        insertBedForCheckoutUseCase.invoke(mockedBed)
+        coVerify { repository.insertBedForCheckout(mockedBed) }
     }
 }

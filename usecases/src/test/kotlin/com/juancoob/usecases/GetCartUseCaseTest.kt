@@ -2,14 +2,11 @@ package com.juancoob.usecases
 
 import com.juancoob.data.DormRepository
 import io.mockk.MockKAnnotations
-import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GetCartUseCaseTest {
 
     @RelaxedMockK
@@ -24,8 +21,8 @@ class GetCartUseCaseTest {
     }
 
     @Test
-    fun `When the user opens the checkout screen, the app calls to the cart content`() = runTest {
+    fun `When the user opens the checkout screen, the app calls to the cart content`() {
         getCartUseCase.invoke()
-        coVerify { repository.getCart() }
+        verify { repository.getCart() }
     }
 }

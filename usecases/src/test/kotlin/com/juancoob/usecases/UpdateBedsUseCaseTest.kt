@@ -11,23 +11,25 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class InsertDormsUseCaseTest {
+class UpdateBedsUseCaseTest {
 
     @RelaxedMockK
     lateinit var repository: DormRepository
 
-    lateinit var insertDormsUseCase: InsertDormsUseCase
+    lateinit var updateBedsUseCase: UpdateBedsUseCase
 
     @Before
     fun startUp() {
         MockKAnnotations.init(this)
-        insertDormsUseCase = InsertDormsUseCase(repository)
+        updateBedsUseCase = UpdateBedsUseCase(repository)
     }
 
     @Test
-    fun `When the app starts, it adds dorms`() =
+    fun `When the user selects a currency, the app updates the bed currency`() =
         runTest {
-            insertDormsUseCase.invoke(listOf(mockedDorm))
-            coVerify { repository.insertDorms(listOf(mockedDorm)) }
+            mockedDorm.run {
+                updateBedsUseCase.invoke(id, pricePerBed, currency, currencySymbol)
+                coVerify { repository.updateBedsCurrency(id, pricePerBed, currency, currencySymbol) }
+            }
         }
 }

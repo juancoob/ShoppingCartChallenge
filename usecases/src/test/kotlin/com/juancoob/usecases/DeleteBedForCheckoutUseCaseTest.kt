@@ -1,7 +1,7 @@
 package com.juancoob.usecases
 
 import com.juancoob.data.DormRepository
-import com.juancoob.testshared.mockedBed
+import com.juancoob.testshared.mockedDorm
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
@@ -10,23 +10,23 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class DeleteAStoredBedForCheckoutUseCaseTest {
+@ExperimentalCoroutinesApi
+class DeleteBedForCheckoutUseCaseTest {
 
     @RelaxedMockK
     lateinit var repository: DormRepository
 
-    lateinit var deleteAStoredBedForCheckoutUseCase: DeleteAStoredBedForCheckoutUseCase
+    lateinit var deleteBedForCheckoutUseCase: DeleteBedForCheckoutUseCase
 
     @Before
     fun startUp() {
         MockKAnnotations.init(this)
-        deleteAStoredBedForCheckoutUseCase = DeleteAStoredBedForCheckoutUseCase(repository)
+        deleteBedForCheckoutUseCase = DeleteBedForCheckoutUseCase(repository)
     }
 
     @Test
     fun `When the user deletes a bed from the counter, it calls to delete the bed`() = runTest {
-        deleteAStoredBedForCheckoutUseCase.invoke(mockedBed)
-        coVerify { repository.deleteAStoredBedForCheckout(mockedBed) }
+        deleteBedForCheckoutUseCase.invoke(mockedDorm.id)
+        coVerify { repository.deleteBedForCheckout(mockedDorm.id) }
     }
 }
