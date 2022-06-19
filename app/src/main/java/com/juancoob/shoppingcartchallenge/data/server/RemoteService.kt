@@ -12,6 +12,7 @@ interface RemoteService {
 
     @GET("convert")
     suspend fun getConversion(
+        @Query("apikey") apikey: String,
         @Query("from") from: String,
         @Query("to") to: String,
         @Query("amount") amount: String

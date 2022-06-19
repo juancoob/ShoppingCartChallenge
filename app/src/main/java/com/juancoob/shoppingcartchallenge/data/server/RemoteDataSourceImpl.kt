@@ -23,7 +23,12 @@ class RemoteDataSourceImpl @Inject constructor(
         to: String,
         amount: Double
     ): Either<ErrorRetrieved, Double> = tryCall {
-        remoteService.getConversion(from, to, amount.toString()).result
+        remoteService.getConversion(
+            apiKey,
+            from,
+            to,
+            amount.toString()
+        ).result
     }
 }
 
