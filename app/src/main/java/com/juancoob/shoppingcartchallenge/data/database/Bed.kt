@@ -8,5 +8,6 @@ data class Bed(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val dormId: Int,
     val pricePerBed: Double,
-    val currency: String
+    val currency: String,
+    val currencySymbol: String
 )

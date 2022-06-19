@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 data class Dorm(
     @PrimaryKey val id: Int,
     val type: String,
-    val maxBeds: Int,
     val bedsAvailable: Int,
     val pricePerBed: Double,
-    val currency: String
+    val currency: String,
+    val currencySymbol: String
 )
