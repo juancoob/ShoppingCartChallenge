@@ -53,10 +53,11 @@ object AppModuleProviderForRetrofit {
     @Singleton
     fun provideRemoteService(@ApiUrl apiUrl: String, okHttpClient: OkHttpClient): RemoteService {
         val contentType = "application/json".toMediaType()
+        val json = Json { ignoreUnknownKeys = true }
         return Retrofit.Builder()
             .baseUrl(apiUrl)
             .client(okHttpClient)
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
             .create()
     }
