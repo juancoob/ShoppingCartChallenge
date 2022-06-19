@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(
 
     private fun insertDorms() {
         viewModelScope.launch {
-            if (getStoredDormsUseCase() == 0) {
+            if (getStoredDormsUseCase().isEmpty()) {
                 val dorms: List<Dorm> = createDorms()
                 insertDormUseCase(dorms)
             }
@@ -53,26 +53,26 @@ class MainViewModel @Inject constructor(
                 Dorm(
                     id = 0,
                     type = "6-bed dorm",
-                    maxBeds = 6,
                     bedsAvailable = 6,
                     pricePerBed = 17.56,
-                    currency = "USD"
+                    currency = "USD",
+                    currencySymbol = "$"
                 ),
                 Dorm(
                     id = 1,
                     type = "8-bed dorm",
-                    maxBeds = 8,
                     bedsAvailable = 8,
                     pricePerBed = 14.50,
-                    currency = "USD"
+                    currency = "USD",
+                    currencySymbol = "$"
                 ),
                 Dorm(
                     id = 2,
                     type = "12-bed dorm",
-                    maxBeds = 12,
                     bedsAvailable = 12,
                     pricePerBed = 12.01,
-                    currency = "USD"
+                    currency = "USD",
+                    currencySymbol = "$"
                 )
             )
         )
