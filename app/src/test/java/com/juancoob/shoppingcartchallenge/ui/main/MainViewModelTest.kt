@@ -58,7 +58,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Progress is shown when the app insert dorms dorms and hidden when it finishes`() =
+    fun `Progress is shown when the app inserts dorms and hidden when it finishes`() =
         runTest {
             mainViewModel.state.test {
                 val mockedDormsFlow = flowOf(mockedDormList)
