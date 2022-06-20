@@ -145,7 +145,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     long: Long
                 ) {
                     val selectedCurrency =
-                        binding.availableCurrenciesSelector.selectedItem as String
+                        (binding.availableCurrenciesSelector.selectedItem as String).take(CURRENCY_CODE_LENGTH)
                     checkoutViewModel.requestConversion(
                         selectedCurrency,
                         Currency.getInstance(selectedCurrency).symbol
@@ -203,5 +203,9 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private const val CURRENCY_CODE_LENGTH = 3
     }
 }

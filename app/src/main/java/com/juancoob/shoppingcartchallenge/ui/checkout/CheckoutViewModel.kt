@@ -184,9 +184,8 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun requestConversion(requestedCurrency: String, newCurrencySymbol: String) {
+    fun requestConversion(newCurrencyCode: String, newCurrencySymbol: String) {
         var errorRetrieved: ErrorRetrieved?
-        val newCurrencyCode = getCurrencyCode(requestedCurrency)
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
             val dorms = getDormsUseCase()
@@ -232,8 +231,6 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    private fun getCurrencyCode(currency: String) = currency.take(CURRENCY_CODE_LENGTH)
-
     data class UiState(
         val loading: Boolean = false,
         val symbolList: List<String>? = null,
@@ -249,8 +246,4 @@ class CheckoutViewModel @Inject constructor(
         val onSubtractBed: () -> Unit,
         val onDeleteCartItem: () -> Unit
     )
-
-    companion object {
-        private const val CURRENCY_CODE_LENGTH = 3
-    }
 }
