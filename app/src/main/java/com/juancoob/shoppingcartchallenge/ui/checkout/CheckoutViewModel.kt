@@ -1,6 +1,5 @@
 package com.juancoob.shoppingcartchallenge.ui.checkout
 
-import android.icu.util.Currency
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juancoob.domain.Bed
@@ -185,10 +184,9 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun requestConversion(requestedCurrency: String) {
+    fun requestConversion(requestedCurrency: String, newCurrencySymbol: String) {
         var errorRetrieved: ErrorRetrieved?
         val newCurrencyCode = getCurrencyCode(requestedCurrency)
-        val newCurrencySymbol = getCurrencySymbol(newCurrencyCode)
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
             val dorms = getDormsUseCase()
@@ -235,8 +233,6 @@ class CheckoutViewModel @Inject constructor(
     }
 
     private fun getCurrencyCode(currency: String) = currency.take(CURRENCY_CODE_LENGTH)
-
-    private fun getCurrencySymbol(currency: String) = Currency.getInstance(currency).symbol
 
     data class UiState(
         val loading: Boolean = false,

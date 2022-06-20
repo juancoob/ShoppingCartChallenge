@@ -1,6 +1,7 @@
 package com.juancoob.shoppingcartchallenge.ui.checkout
 
 import android.graphics.Color
+import android.icu.util.Currency
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -145,7 +146,10 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 ) {
                     val selectedCurrency =
                         binding.availableCurrenciesSelector.selectedItem as String
-                    checkoutViewModel.requestConversion(selectedCurrency)
+                    checkoutViewModel.requestConversion(
+                        selectedCurrency,
+                        Currency.getInstance(selectedCurrency).symbol
+                    )
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
